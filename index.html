@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+        <style>
+            body {
+              margin: 0;
+              padding: 0;
+            }
+            #map {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              width: 100%;
+              height: 100%;
+            }
+        </style>
+        </head>
+        <body>
+        <style>
+            .marker {
+              background-image: url('https://cdn.rawgit.com/dyavromEPA/a71f02aca7cade0d26a90344e61738f4/raw/aca54e7f1f8eb8c87c6719feb23c8fe2198baea3/map.svg');
+              background-size: cover;
+              width: 46px;
+              height: 46px;
+              cursor: pointer;
+              padding: 0px;
+            }
+            .mapboxgl-popup {
+              max-width: 300px;
+            }
+            .mapboxgl-popup-content {
+              text-align: center;
+              font-family: 'Open Sans', sans-serif;
+            }
+
+            #fit {
+              position: fixed;
+              margin: 10px 0px 10px 10px;
+                  width: 100px;
+                  height: 35px;
+                  box-shadow:0px 0px 3px rgba(0, 0, 0, 0.10);
+                  border: none;
+                  border-radius: 3px;
+                  font-size: 12px;
+          	       font-family: 'Inconsolata';
+                  color: #fff;
+                  background: #ee8a65;
+                  cursor:pointer;
+              }
+
+              #fit2 {
+                position: fixed;
+                margin: 50px 0px 10px 10px;
+                    width: 20px;
+                    height: 20px;
+                    box-shadow:0px 0px 3px rgba(0, 0, 0, 0.10);
+                    border: none;
+                    border-radius: 3px;
+                    font-size: 12px;
+                     font-family: 'Inconsolata';
+                    color: #fff;
+                    background: #ee8a65;
+                    cursor:pointer;
+                }
+
+                    /* The Modal (background) */
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                        background-color: rgb(0,0,0);
+                        background-color: rgba(0,0,0,0.4);
+
+                    }
+
+                    /* Modal Content/Box */
+                    .modal-content {
+                        background-color: #fefefe;
+                        margin: 15% auto;
+                        padding: 20px;
+                        border-radius: 4px;
+                        width: 60%;
+                        font-family: 'Open Sans', sans-serif;
+                        font-size: 14px;
+                        animation-name: animatetop;
+                        animation-duration: 0.4s;
+
+                    }
+
+                    @keyframes animatetop {
+                        from {top: -300px; opacity: 0}
+                        to {top: 0; opacity: 1}
+                    }
+
+                    /* The Close Button */
+                    .close {
+                        color: #aaa;
+                        float: right;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+
+                    .close:hover,
+                    .close:focus {
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+
+</style>
+<div id='map'></div>
+
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+    </div>
+</div>
+<button id='fit'>Center Map</button>
+<button id="fit2">i</button>
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h4>Welcome to the DC Bahai Tour Map. Here you can access .... insert more text</h4>
+    <h4>Here is a place where you can also learn things...</h4>
+  </div>
+</div>
+
+
+
+<script>
+mapboxgl.accessToken =
+'pk.eyJ1IjoiZHlhdnJvbSIsImEiOiJjamZsZGl0dnIwMHUwMnhvNDB4N2o0cnB6In0.AqxOgFJXuLgFMiwkPutaLA';
+
+    //load map
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10',
+        center: [-77.0399, 38.8968],
+        //center: [-121.5500,38.2899],
+        zoom: 13.1,
+        attributionControl:false
+      });
+
+
+
+
+    //add second layer of data
+map.on('load', function() {
+  var layers = map.getStyle().layers;
+    // Find the index of the first symbol layer in the map style
+      var firstSymbolId;
+          for (var i = 0; i < layers.length; i++) {
+              if (layers[i].type === 'symbol') {
+                  firstSymbolId = layers[i].id;
+                  break;
+              }
+          }
+
+            map.addLayer({
+                "id": "dyavrom.d7g97071",
+                "type": "fill",
+                // "source": {
+                //     type: 'vector',
+                //     url: 'mapbox://dyavrom.d7g97071'
+                //   },
+                // 'source-layer': 'selected_layer',
+                // 'minzoom':8,
+                //
+                // "paint": {
+                //   "fill-color": "#2ee6da",
+                //   "fill-opacity": 1
+                // }
+            });
+          });
+
+          //fit to center button
+          document.getElementById('fit').addEventListener('click', function() {
+              map.fitBounds([[-77.079464,38.866008],[-77.000328,38.927597]]);
+
+          });
+
+          // newer data
+          var geojson = {
+          "type": "FeatureCollection",
+          "name": "data",
+          "features": [
+          { "type": "Feature", "properties": { "location": "Carnegie Library", "description": " ", "lat": 38.90263, "lon": -77.02289, "marker": 1, "order": 1 }, "geometry": { "type": "Point", "coordinates": [ -77.02289, 38.90263 ] } },
+          { "type": "Feature", "properties": { "location": "Studio Hall", "description": " ", "lat": 38.90651, "lon": -77.04117, "marker": 1, "order": 2 }, "geometry": { "type": "Point", "coordinates": [ -77.04117, 38.90651 ] } },
+          { "type": "Feature", "properties": { "location": "Universalist Church", "description": " ", "lat": 38.90365, "lon": -77.0295, "marker": 1, "order": 3 }, "geometry": { "type": "Point", "coordinates": [ -77.0295, 38.90365 ] } },
+          { "type": "Feature", "properties": { "location": "Library of Congress", "description": " ", "lat": 38.88868, "lon": -77.00471, "marker": 1, "order": 4 }, "geometry": { "type": "Point", "coordinates": [ -77.00471, 38.88868 ] } },
+          { "type": "Feature", "properties": { "location": "The Parsons House", "description": " ", "lat": 38.91282, "lon": -77.04182, "marker": 1, "order": 5 }, "geometry": { "type": "Point", "coordinates": [ -77.04182, 38.91282 ] } },
+          { "type": "Feature", "properties": { "location": "Andrew Rankin Memorial Chapel", "description": " ", "lat": 38.92215, "lon": -77.02061, "marker": 1, "order": 6 }, "geometry": { "type": "Point", "coordinates": [ -77.02061, 38.92215 ] } },
+          { "type": "Feature", "properties": { "location": "Persian Legation", "description": " ", "lat": 38.91503, "lon": -77.03687, "marker": 1, "order": 7 }, "geometry": { "type": "Point", "coordinates": [ -77.03687, 38.91503 ] } },
+          { "type": "Feature", "properties": { "location": "A.M.E. Church", "description": " ", "lat": 38.90535, "lon": -77.03535, "marker": 1, "order": 8 }, "geometry": { "type": "Point", "coordinates": [ -77.03535, 38.90535 ] } },
+          { "type": "Feature", "properties": { "location": "Arlington Cemetary", "description": "Gen. And Mrs. Wiliams B. Royall", "lat": 38.87587, "lon": -77.0752, "marker": 1, "order": 9 }, "geometry": { "type": "Point", "coordinates": [ -77.0752, 38.87587 ] } },
+          { "type": "Feature", "properties": { "location": "Mrs. Andrew Dyer", "description": " ", "lat": 38.91669, "lon": -77.02934, "marker": 1, "order": 10 }, "geometry": { "type": "Point", "coordinates": [ -77.02934, 38.91669 ] } },
+          { "type": "Feature", "properties": { "location": "Mr. Alexander Graham Bell", "description": null, "lat": 38.90814, "lon": -77.04229, "marker": 1, "order": 11 }, "geometry": { "type": "Point", "coordinates": [ -77.04229, 38.90814 ] } },
+          { "type": "Feature", "properties": { "location": "Turkish Embassy", "description": " ", "lat": 38.91322, "lon": -77.04511, "marker": 1, "order": 12 }, "geometry": { "type": "Point", "coordinates": [ -77.04511, 38.91322 ] } },
+          { "type": "Feature", "properties": { "location": "Mrs. White", "description": " ", "lat": 38.90706, "lon": -77.03985, "marker": 1, "order": 13 }, "geometry": { "type": "Point", "coordinates": [ -77.03985, 38.90706 ] } },
+          { "type": "Feature", "properties": { "location": "President Taft's Church", "description": " ", "lat": 38.90366, "lon": -77.03184, "marker": 1, "order": 14 }, "geometry": { "type": "Point", "coordinates": [ -77.03184, 38.90366 ] } },
+          { "type": "Feature", "properties": { "location": "DAR Constiution Hall", "description": " ", "lat": 38.89385, "lon": -77.04032, "marker": 1, "order": 15 }, "geometry": { "type": "Point", "coordinates": [ -77.04032, 38.89385 ] } },
+          { "type": "Feature", "properties": { "location": "1335 Harvard St NW", "description": " ", "lat": 38.92647, "lon": -77.03094, "marker": 1, "order": 16 }, "geometry": { "type": "Point", "coordinates": [ -77.03094, 38.92647 ] } },
+          { "type": "Feature", "properties": { "location": "McLacken Building", "description": "Orieng-Occident Unity, Room 510", "lat": 38.8987, "lon": -77.02648, "marker": 1, "order": 17 }, "geometry": { "type": "Point", "coordinates": [ -77.02648, 38.8987 ] } },
+          { "type": "Feature", "properties": { "location": "United States Capitol", "description": " ", "lat": 38.88993, "lon": -77.00905, "marker": 1, "order": 18 }, "geometry": { "type": "Point", "coordinates": [ -77.00905, 38.88993 ] } },
+          { "type": "Feature", "properties": { "location": "Washington Monument", "description": " ", "lat": 38.88948, "lon": -77.03527, "marker": 1, "order": 19 }, "geometry": { "type": "Point", "coordinates": [ -77.03527, 38.88948 ] } },
+          { "type": "Feature", "properties": { "location": "1901 8th St NW", "description": " ", "lat": 38.91581, "lon": -77.04147, "marker": 1, "order": 20 }, "geometry": { "type": "Point", "coordinates": [ -77.04147, 38.91581 ] } },
+          { "type": "Feature", "properties": { "location": "Washington Hebrew Congregation", "description": " ", "lat": 38.9003, "lon": -77.02328, "marker": 1, "order": 21 }, "geometry": { "type": "Point", "coordinates": [ -77.02328, 38.9003 ] } }
+          ]
+          }
+
+
+      // add markers to map
+      geojson.features.forEach(function(marker) {
+
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+        el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+
+      //add popups
+      new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup({ offset: 25,
+        closeButton: (true) })
+        .setHTML('<h3>' + marker.properties.location + '</h3><h5>'
+       + marker.properties.description+ '</h5>'))
+        .addTo(map);
+      });
+
+      // Add Geocoder
+
+      map.addControl(new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+      }), 'top-right');
+
+      map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+      // Add zoom and rotation controls to the map.
+      map.addControl(new mapboxgl.NavigationControl({
+          showCompass: (false),
+      }), 'bottom-right');
+
+      // Add geolocate control to the map.
+      map.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+              enableHighAccuracy: true
+          },
+          trackUserLocation: true,
+          fitBoundsOptions: {maxZoom:11},
+
+      }), 'bottom-right');
+
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("fit2");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+</script>
+</body>
+</html>

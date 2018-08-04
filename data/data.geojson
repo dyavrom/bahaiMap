@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+"name": "data",
+"features": [
+{ "type": "Feature", "properties": { "location": "Carnegie Library", "description": " ", "lat": 38.90263, "lon": -77.02289, "marker": 1, "order": 1 }, "geometry": { "type": "Point", "coordinates": [ -77.02289, 38.90263 ] } },
+{ "type": "Feature", "properties": { "location": "Studio Hall", "description": " ", "lat": 38.90651, "lon": -77.04117, "marker": 1, "order": 2 }, "geometry": { "type": "Point", "coordinates": [ -77.04117, 38.90651 ] } },
+{ "type": "Feature", "properties": { "location": "Universalist Church", "description": " ", "lat": 38.90365, "lon": -77.0295, "marker": 1, "order": 3 }, "geometry": { "type": "Point", "coordinates": [ -77.0295, 38.90365 ] } },
+{ "type": "Feature", "properties": { "location": "Library of Congress", "description": " ", "lat": 38.88868, "lon": -77.00471, "marker": 1, "order": 4 }, "geometry": { "type": "Point", "coordinates": [ -77.00471, 38.88868 ] } },
+{ "type": "Feature", "properties": { "location": "The Parsons House", "description": " ", "lat": 38.91282, "lon": -77.04182, "marker": 1, "order": 5 }, "geometry": { "type": "Point", "coordinates": [ -77.04182, 38.91282 ] } },
+{ "type": "Feature", "properties": { "location": "Andrew Rankin Memorial Chapel", "description": " ", "lat": 38.92215, "lon": -77.02061, "marker": 1, "order": 6 }, "geometry": { "type": "Point", "coordinates": [ -77.02061, 38.92215 ] } },
+{ "type": "Feature", "properties": { "location": "Persian Legation", "description": " ", "lat": 38.91503, "lon": -77.03687, "marker": 1, "order": 7 }, "geometry": { "type": "Point", "coordinates": [ -77.03687, 38.91503 ] } },
+{ "type": "Feature", "properties": { "location": "A.M.E. Church", "description": " ", "lat": 38.90535, "lon": -77.03535, "marker": 1, "order": 8 }, "geometry": { "type": "Point", "coordinates": [ -77.03535, 38.90535 ] } },
+{ "type": "Feature", "properties": { "location": "Arlington Cemetary", "description": "Gen. And Mrs. Wiliams B. Royall", "lat": 38.87587, "lon": -77.0752, "marker": 1, "order": 9 }, "geometry": { "type": "Point", "coordinates": [ -77.0752, 38.87587 ] } },
+{ "type": "Feature", "properties": { "location": "Mrs. Andrew Dyer", "description": " ", "lat": 38.91669, "lon": -77.02934, "marker": 1, "order": 10 }, "geometry": { "type": "Point", "coordinates": [ -77.02934, 38.91669 ] } },
+{ "type": "Feature", "properties": { "location": "Mr. Alexander Graham Bell", "description": null, "lat": 38.90814, "lon": -77.04229, "marker": 1, "order": 11 }, "geometry": { "type": "Point", "coordinates": [ -77.04229, 38.90814 ] } },
+{ "type": "Feature", "properties": { "location": "Turkish Embassy", "description": " ", "lat": 38.91322, "lon": -77.04511, "marker": 1, "order": 12 }, "geometry": { "type": "Point", "coordinates": [ -77.04511, 38.91322 ] } },
+{ "type": "Feature", "properties": { "location": "Mrs. White", "description": " ", "lat": 38.90706, "lon": -77.03985, "marker": 1, "order": 13 }, "geometry": { "type": "Point", "coordinates": [ -77.03985, 38.90706 ] } },
+{ "type": "Feature", "properties": { "location": "President Taft's Church", "description": " ", "lat": 38.90366, "lon": -77.03184, "marker": 1, "order": 14 }, "geometry": { "type": "Point", "coordinates": [ -77.03184, 38.90366 ] } },
+{ "type": "Feature", "properties": { "location": "DAR Constiution Hall", "description": " ", "lat": 38.89385, "lon": -77.04032, "marker": 1, "order": 15 }, "geometry": { "type": "Point", "coordinates": [ -77.04032, 38.89385 ] } },
+{ "type": "Feature", "properties": { "location": "1335 Harvard St NW", "description": " ", "lat": 38.92647, "lon": -77.03094, "marker": 1, "order": 16 }, "geometry": { "type": "Point", "coordinates": [ -77.03094, 38.92647 ] } },
+{ "type": "Feature", "properties": { "location": "McLacken Building", "description": "Orieng-Occident Unity, Room 510", "lat": 38.8987, "lon": -77.02648, "marker": 1, "order": 17 }, "geometry": { "type": "Point", "coordinates": [ -77.02648, 38.8987 ] } },
+{ "type": "Feature", "properties": { "location": "United States Capitol", "description": " ", "lat": 38.88993, "lon": -77.00905, "marker": 1, "order": 18 }, "geometry": { "type": "Point", "coordinates": [ -77.00905, 38.88993 ] } },
+{ "type": "Feature", "properties": { "location": "Washington Monument", "description": " ", "lat": 38.88948, "lon": -77.03527, "marker": 1, "order": 19 }, "geometry": { "type": "Point", "coordinates": [ -77.03527, 38.88948 ] } },
+{ "type": "Feature", "properties": { "location": "1901 8th St NW", "description": " ", "lat": 38.91581, "lon": -77.04147, "marker": 1, "order": 20 }, "geometry": { "type": "Point", "coordinates": [ -77.04147, 38.91581 ] } },
+{ "type": "Feature", "properties": { "location": "Washington Hebrew Congregation", "description": " ", "lat": 38.9003, "lon": -77.02328, "marker": 1, "order": 21 }, "geometry": { "type": "Point", "coordinates": [ -77.02328, 38.9003 ] } }
+]
+}
