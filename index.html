@@ -10,6 +10,8 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
         <style>
             body {
               margin: 0;
@@ -29,13 +31,14 @@
             .marker {
               background-image: url('https://cdn.rawgit.com/dyavromEPA/a71f02aca7cade0d26a90344e61738f4/raw/aca54e7f1f8eb8c87c6719feb23c8fe2198baea3/map.svg');
               background-size: cover;
-              width: 46px;
-              height: 46px;
+              width: 30px;
+              height: 30px;
               cursor: pointer;
               padding: 0px;
             }
             .mapboxgl-popup {
-              max-width: 300px;
+              max-width: 600px;
+
             }
             .mapboxgl-popup-content {
               text-align: center;
@@ -47,7 +50,7 @@
               margin: 10px 0px 10px 10px;
                   width: 100px;
                   height: 35px;
-                  box-shadow:0px 0px 3px rgba(0, 0, 0, 0.10);
+                  box-shadow:0px 0px 3px rgba(0, 0, 0, 0.20);
                   border: none;
                   border-radius: 3px;
                   font-size: 12px;
@@ -62,14 +65,14 @@
                 margin: 50px 0px 10px 10px;
                     width: 20px;
                     height: 20px;
-                    box-shadow:0px 0px 3px rgba(0, 0, 0, 0.10);
+                    box-shadow:0px 0px 3px rgba(0, 0, 0, 0.20);
                     border: none;
                     border-radius: 3px;
                     font-size: 12px;
                      font-family: 'Inconsolata';
                     color: #fff;
                     background: #ee8a65;
-                    cursor:pointer;
+                    cursor: pointer;
                 }
 
                     /* The Modal (background) */
@@ -134,8 +137,8 @@
 
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h4>Welcome to the DC Bahai Tour Map. Here you can access .... insert more text</h4>
-    <h4>Here is a place where you can also learn things...</h4>
+    <h4>Welcome to the DC Bahai Tour Map. Here you can access a comprehensive.... insert more text</h4>
+    <h4>Here is a place where you can also learn things...We hope you enjoy your stay here.</h4>
   </div>
 </div>
 
@@ -149,9 +152,9 @@ mapboxgl.accessToken =
       var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v10',
-        center: [-77.0399, 38.8968],
+        center: [-77.03935, 38.89945],
         //center: [-121.5500,38.2899],
-        zoom: 13.1,
+        zoom: 11.25,
         attributionControl:false
       });
 
@@ -184,44 +187,107 @@ map.on('load', function() {
                 //   "fill-color": "#2ee6da",
                 //   "fill-opacity": 1
                 // }
-            });
+                });
+
+                //insert the 18th st line
+                map.addLayer({
+                    "id": "route",
+                    "type": "line",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "Feature",
+                            "properties": {},
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": [
+                                  [-77.041681, 38.9129913 ],
+                                  [-77.041690,38.901397]
+                                ]
+                            }
+                        }
+                    },
+                    "layout": {
+                        "line-join": "round",
+                        "line-cap": "round"
+                    },
+                    "paint": {
+                        "line-color": "#888",
+                        "line-width": 5
+                    }
+                });
+
           });
 
           //fit to center button
           document.getElementById('fit').addEventListener('click', function() {
-              map.fitBounds([[-77.079464,38.866008],[-77.000328,38.927597]]);
+              map.fitBounds([[-77.163212,38.792144],[-76.908466,38.997093]]);
 
           });
+
 
           // newer data
           var geojson = {
           "type": "FeatureCollection",
-          "name": "data",
+          "name": "data2",
+          "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
           "features": [
-          { "type": "Feature", "properties": { "location": "Carnegie Library", "description": " ", "lat": 38.90263, "lon": -77.02289, "marker": 1, "order": 1 }, "geometry": { "type": "Point", "coordinates": [ -77.02289, 38.90263 ] } },
-          { "type": "Feature", "properties": { "location": "Studio Hall", "description": " ", "lat": 38.90651, "lon": -77.04117, "marker": 1, "order": 2 }, "geometry": { "type": "Point", "coordinates": [ -77.04117, 38.90651 ] } },
-          { "type": "Feature", "properties": { "location": "Universalist Church", "description": " ", "lat": 38.90365, "lon": -77.0295, "marker": 1, "order": 3 }, "geometry": { "type": "Point", "coordinates": [ -77.0295, 38.90365 ] } },
-          { "type": "Feature", "properties": { "location": "Library of Congress", "description": " ", "lat": 38.88868, "lon": -77.00471, "marker": 1, "order": 4 }, "geometry": { "type": "Point", "coordinates": [ -77.00471, 38.88868 ] } },
-          { "type": "Feature", "properties": { "location": "The Parsons House", "description": " ", "lat": 38.91282, "lon": -77.04182, "marker": 1, "order": 5 }, "geometry": { "type": "Point", "coordinates": [ -77.04182, 38.91282 ] } },
-          { "type": "Feature", "properties": { "location": "Andrew Rankin Memorial Chapel", "description": " ", "lat": 38.92215, "lon": -77.02061, "marker": 1, "order": 6 }, "geometry": { "type": "Point", "coordinates": [ -77.02061, 38.92215 ] } },
-          { "type": "Feature", "properties": { "location": "Persian Legation", "description": " ", "lat": 38.91503, "lon": -77.03687, "marker": 1, "order": 7 }, "geometry": { "type": "Point", "coordinates": [ -77.03687, 38.91503 ] } },
-          { "type": "Feature", "properties": { "location": "A.M.E. Church", "description": " ", "lat": 38.90535, "lon": -77.03535, "marker": 1, "order": 8 }, "geometry": { "type": "Point", "coordinates": [ -77.03535, 38.90535 ] } },
-          { "type": "Feature", "properties": { "location": "Arlington Cemetary", "description": "Gen. And Mrs. Wiliams B. Royall", "lat": 38.87587, "lon": -77.0752, "marker": 1, "order": 9 }, "geometry": { "type": "Point", "coordinates": [ -77.0752, 38.87587 ] } },
-          { "type": "Feature", "properties": { "location": "Mrs. Andrew Dyer", "description": " ", "lat": 38.91669, "lon": -77.02934, "marker": 1, "order": 10 }, "geometry": { "type": "Point", "coordinates": [ -77.02934, 38.91669 ] } },
-          { "type": "Feature", "properties": { "location": "Mr. Alexander Graham Bell", "description": null, "lat": 38.90814, "lon": -77.04229, "marker": 1, "order": 11 }, "geometry": { "type": "Point", "coordinates": [ -77.04229, 38.90814 ] } },
-          { "type": "Feature", "properties": { "location": "Turkish Embassy", "description": " ", "lat": 38.91322, "lon": -77.04511, "marker": 1, "order": 12 }, "geometry": { "type": "Point", "coordinates": [ -77.04511, 38.91322 ] } },
-          { "type": "Feature", "properties": { "location": "Mrs. White", "description": " ", "lat": 38.90706, "lon": -77.03985, "marker": 1, "order": 13 }, "geometry": { "type": "Point", "coordinates": [ -77.03985, 38.90706 ] } },
-          { "type": "Feature", "properties": { "location": "President Taft's Church", "description": " ", "lat": 38.90366, "lon": -77.03184, "marker": 1, "order": 14 }, "geometry": { "type": "Point", "coordinates": [ -77.03184, 38.90366 ] } },
-          { "type": "Feature", "properties": { "location": "DAR Constiution Hall", "description": " ", "lat": 38.89385, "lon": -77.04032, "marker": 1, "order": 15 }, "geometry": { "type": "Point", "coordinates": [ -77.04032, 38.89385 ] } },
-          { "type": "Feature", "properties": { "location": "1335 Harvard St NW", "description": " ", "lat": 38.92647, "lon": -77.03094, "marker": 1, "order": 16 }, "geometry": { "type": "Point", "coordinates": [ -77.03094, 38.92647 ] } },
-          { "type": "Feature", "properties": { "location": "McLacken Building", "description": "Orieng-Occident Unity, Room 510", "lat": 38.8987, "lon": -77.02648, "marker": 1, "order": 17 }, "geometry": { "type": "Point", "coordinates": [ -77.02648, 38.8987 ] } },
-          { "type": "Feature", "properties": { "location": "United States Capitol", "description": " ", "lat": 38.88993, "lon": -77.00905, "marker": 1, "order": 18 }, "geometry": { "type": "Point", "coordinates": [ -77.00905, 38.88993 ] } },
-          { "type": "Feature", "properties": { "location": "Washington Monument", "description": " ", "lat": 38.88948, "lon": -77.03527, "marker": 1, "order": 19 }, "geometry": { "type": "Point", "coordinates": [ -77.03527, 38.88948 ] } },
-          { "type": "Feature", "properties": { "location": "1901 8th St NW", "description": " ", "lat": 38.91581, "lon": -77.04147, "marker": 1, "order": 20 }, "geometry": { "type": "Point", "coordinates": [ -77.04147, 38.91581 ] } },
-          { "type": "Feature", "properties": { "location": "Washington Hebrew Congregation", "description": " ", "lat": 38.9003, "lon": -77.02328, "marker": 1, "order": 21 }, "geometry": { "type": "Point", "coordinates": [ -77.02328, 38.9003 ] } }
+          { "type": "Feature", "properties": { "num": null, "id": 1, "name": "Washington Monument", "blurb": "Tall granite thing. Go to the top.", "address": "Madison Dr NW & 15th St NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.89013, "lon": -77.033031, "desc": "The Washington Monument is an obelisk near the west end of the National Mall in Washington, D.C., built to commemorate the first U.S. president, General George Washington. The monument, made of marble, granite, and bluestone gneiss, is both the world's tallest stone structure and the world's tallest obelisk, standing 555 feet 51/8 inches (169.294 m). Taller monumental columns exist, but they are neither all stone nor true obelisks. Construction of the monument began in 1848, but was halted from 1854 to 1877, and finally completed in 1884. The hiatus in construction happened because of co-option by the Know Nothing party, a lack of funds, and the intervention of the American Civil War. A difference in shading of the marble, visible approximately 150 feet (46 m) or 27% up, shows where construction was halted. The completed monument was dedicated on February 21, 1885. It officially opened October 9, 1888. Upon completion, it became the world's tallest structure, a title previously held by the Cologne Cathedral. The monument held this designation until 1889, when the Eiffel Tower was completed in Paris, France. The monument stands due east of the Reflecting Pool and the Lincoln Memorial"},
+           "geometry": { "type": "Point", "coordinates": [ -77.033031, 38.89013 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 2, "name": "US Capitol", "blurb": "They make laws here. So they say.", "address": "East Capitol St NE & First St", "city": "Washington", "state": "DC", "zip": 20004, "lat": 38.889812, "lon": -77.0059285, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0059285, 38.889812 ] } },
+          { "type": "Feature", "properties": { "num": 11, "id": 3, "name": "1336 Harvard Street", "blurb": "The May Residence of the Master in DC", "address": "1336 Harvard St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.926726, "lon": -77.0309451, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0309451, 38.926726 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 4, "name": "Parson's Home", "blurb": "The April Residence of the Master in DC", "address": "1704 18th Street NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9129913, "lon": -77.041681, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.041681, 38.9129913 ] } },
+          { "type": "Feature", "properties": { "num": 10, "id": 5, "name": "Union Station", "blurb": "Built in 1908 as a symbolic gateway to America, welcomed the Master to DC three times", "address": "50 Massachusetts Ave NE", "city": "Washington", "state": "DC", "zip": 20002, "lat": 38.8971206, "lon": -77.0062537, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0062537, 38.8971206 ] } },
+          { "type": "Feature", "properties": { "num": 11, "id": 6, "name": "1336 Harvard Street", "blurb": "The May Residence of the Master in DC", "address": "1336 Harvard St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.926726, "lon": -77.0309451, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0309451, 38.926726 ] } },
+          { "type": "Feature", "properties": { "num": 13, "id": 7, "name": "Carnegie Public Library", "blurb": "The first public address of the Master in DC, at the 2nd Annual Orient-Occident Unity Conference", "address": "801 K St NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.902558, "lon": -77.022947, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.022947, 38.902558 ] } },
+          { "type": "Feature", "properties": { "num": 12, "id": 8, "name": "Parsons Home", "blurb": "The April Residence of the Master in DC", "address": "1704 18th Street NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9129913, "lon": -77.041681, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.041681, 38.9129913 ] } },
+          { "type": "Feature", "properties": { "num": 15, "id": 13, "name": "Studio House", "blurb": "Alice Hemmick's House visited by the Master five times", "address": "2305 Massachusetts Ave NW", "city": "Washington", "state": "DC", "zip": 20008, "lat": 38.913017, "lon": -77.051166, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.051166, 38.913017 ] } },
+          { "type": "Feature", "properties": { "num": 14, "id": 9, "name": "1912 DC Bahai Center", "blurb": "DC Baha'i Center since December 1909", "address": "1219 Connecticut Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9064961, "lon": -77.0412564, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0412564, 38.9064961 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 10, "name": "dfs", "blurb": "sdfsdsdfsd", "address": null, "city": null, "state": "DC", "zip": 0, "lat": 38.9059849, "lon": -77.0334179, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0334179, 38.9059849 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 11, "name": "dfs", "blurb": "sdfsdsdfsd", "address": null, "city": null, "state": "DC", "zip": 0, "lat": 38.9059849, "lon": -77.0334179, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0334179, 38.9059849 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 12, "name": "ewerwer", "blurb": null, "address": null, "city": null, "state": "DC", "zip": 0, "lat": 38.9059849, "lon": -77.0334179, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0334179, 38.9059849 ] } },
+          { "type": "Feature", "properties": { "num": 16, "id": 14, "name": "Universalist National Memorial Church", "blurb": "Current location of Congregation twice visited by the Master", "address": "1810 16th St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9143024, "lon": -77.0366625, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0366625, 38.9143024 ] } },
+          { "type": "Feature", "properties": { "num": 17, "id": 15, "name": "Library of Congress Jefferson Building", "blurb": "Monumental Library visited by the Master", "address": "10 1st St SE", "city": "Washington", "state": "DC", "zip": 20004, "lat": 38.889623, "lon": -77.0059077, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0059077, 38.889623 ] } },
+          { "type": "Feature", "properties": { "num": 18, "id": 16, "name": "Baha'i Archives", "blurb": "Display of items associated with the Masters 1912 visit", "address": "5713 16th St NW", "city": "Washington", "state": "DC", "zip": 20011, "lat": 38.9591089, "lon": -77.0360757, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0360757, 38.9591089 ] } },
+          { "type": "Feature", "properties": { "num": 19, "id": 17, "name": "Hannen-Knobloch Residence", "blurb": "A residence of illustrious service to the Faith visited twice by the Master", "address": "1252 8th St NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.9072577, "lon": -77.0229583, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0229583, 38.9072577 ] } },
+          { "type": "Feature", "properties": { "num": 20, "id": 18, "name": "Rankin Chapel", "blurb": "The Master addresses his first Integrated Public Audience in Segregated Washington", "address": "2387 6th St NW", "city": "Washington", "state": "DC", "zip": 20059, "lat": 38.9223577, "lon": -77.0210571, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0210571, 38.9223577 ] } },
+          { "type": "Feature", "properties": { "num": 21, "id": 19, "name": "Persian Legation", "blurb": "Baha'i representing Persia in America visited by the Master", "address": "1832 16th St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9150055, "lon": -77.0365782, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0365782, 38.9150055 ] } },
+          { "type": "Feature", "properties": { "num": 22, "id": 20, "name": "Metropolitan African Methodist Episcopal Church", "blurb": "The Master addresses the leading American African Descent Scientific Organization", "address": "1518 M St NW", "city": "Washington", "state": "DC", "zip": 20005, "lat": 38.905342, "lon": -77.0354739, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0354739, 38.905342 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 21, "name": "Walk the Master took along 18th Street", "blurb": "From 1704 18th Street (R Street) to 900 18th Street (I Street)", "address": "1396 18th St NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.904641, "lon": -77.041699, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0417119, 38.9092638 ] } },
+          { "type": "Feature", "properties": { "num": 24, "id": 22, "name": "The Gravesite of the Parents of Agnes Parsons", "blurb": "The Master visits a Grave with White Roses", "address": "Meigs Drive", "city": "Arlington", "state": "VA", "zip": 22211, "lat": 38.8801283, "lon": -77.077402, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.077402, 38.8801283 ] } },
+          { "type": "Feature", "properties": { "num": 25, "id": 23, "name": "DC's Weekly Integrated Fireside", "blurb": "The Master addresses an integrated gathering filling Him with joy", "address": "1937 13th St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9166681, "lon": -77.0296021, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0296021, 38.9166681 ] } },
+          { "type": "Feature", "properties": { "num": 26, "id": 24, "name": "Alexander Graham Bell's House", "blurb": "The Master addresses a second scientific society", "address": "1345 Connecticut Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9084414, "lon": -77.0424989, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0424989, 38.9084414 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 38, "name": "Mrs. Pocahontas Pope House", "blurb": "The Master described her as the First of Her Race", "address": "1500 1st Street NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.9097813, "lon": -77.0123012, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0123012, 38.9097813 ] } },
+          { "type": "Feature", "properties": { "num": 40, "id": 39, "name": "New Willard Hotel", "blurb": "Where the Master finished His visit with Mrs. Ramona Allen Brown", "address": "1401 Pennsylvania Ave NW", "city": "Washington", "state": "DC", "zip": 20004, "lat": 38.896427, "lon": -77.032721, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.032721, 38.896427 ] } },
+          { "type": "Feature", "properties": { "num": 53, "id": 25, "name": "Khan House", "blurb": "Home of Florence KhÃƒÂ¡num and Ali Kuli Khan twice visited by the Master", "address": "1913 Massachusetts Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9105009, "lon": -77.044365, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.044365, 38.9105009 ] } },
+          { "type": "Feature", "properties": { "num": 27, "id": 26, "name": "Turkish Embassy", "blurb": "The Master visited four times his former Imprisoners as an Honored Guest", "address": "1711 Conneticut Avenue", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9131091, "lon": -77.0452289, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0452289, 38.9131091 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 27, "name": "White Mansion", "blurb": "Master visited home of leading Suffragist and Peace Activist on all three of His visits", "address": "1734 N St NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9071386, "lon": -77.0396857, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0396857, 38.9071386 ] } },
+          { "type": "Feature", "properties": { "num": 29, "id": 28, "name": "Woman's Alliance of the All Souls Unitarian Church", "blurb": "The Masters fourth formal visit to a House of Worship", "address": "1500 Harvard St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9263069, "lon": -77.0354927, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0354927, 38.9263069 ] } },
+          { "type": "Feature", "properties": { "num": 30, "id": 29, "name": "Continental Hall of the Daughters of the American Revolution", "blurb": "The Largest Audience to hear the Master", "address": "1776 D St NW", "city": "Washington", "state": "DC", "zip": 20006, "lat": 38.8936076, "lon": -77.0397162, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0397162, 38.8936076 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 30, "name": "White Lot (Lafayette Square?)", "blurb": "The Master visits the White House Park", "address": "1500 E St NW", "city": "Washington", "state": "DC", "zip": 20229, "lat": 38.8954768, "lon": -77.0338384, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0338384, 38.8954768 ] } },
+          { "type": "Feature", "properties": { "num": 32, "id": 31, "name": "Cobb House", "blurb": "The Master visiting a Baha'i who would remain in the house for another 70 years", "address": "19 Grafton Street", "city": "Chevy Chase", "state": "MD", "zip": 20815, "lat": 38.967899, "lon": -77.081271, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.081271, 38.967899 ] } },
+          { "type": "Feature", "properties": { "num": 33, "id": 32, "name": "Orient-Occident unity", "blurb": "The Master Teaches America about Consultation", "address": "1001 G St NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.898706, "lon": -77.026481, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.026481, 38.898706 ] } },
+          { "type": "Feature", "properties": { "num": 34, "id": 33, "name": "US Capitol", "blurb": "The Master went inside and He walked the grounds", "address": "1st St SE & Independence Ave SE", "city": "Washington", "state": "DC", "zip": 20515, "lat": 38.8876043, "lon": -77.0059139, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0059139, 38.8876043 ] } },
+          { "type": "Feature", "properties": { "num": 35, "id": 34, "name": "Washington Monument", "blurb": "A postcard for the Wife of the Master", "address": "1 15th St NW", "city": "Washington", "state": "DC", "zip": 20024, "lat": 38.8897695, "lon": -77.0328822, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0328822, 38.8897695 ] } },
+          { "type": "Feature", "properties": { "num": 36, "id": 35, "name": "Barney Neighborhood House", "blurb": "Barney Family Social and Economic Development Project visited by the Master", "address": "470 N St SW", "city": "Washington", "state": "DC", "zip": 20024, "lat": 38.874636, "lon": -77.0182865, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0182865, 38.874636 ] } },
+          { "type": "Feature", "properties": { "num": 37, "id": 36, "name": "Barney House", "blurb": "The Master adressing a meeting of women at the nascent headquarters of the Women Peace Party and the National American Woman Suffrage Association", "address": "1626 Rhode Island Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9067534, "lon": -77.0378822, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0378822, 38.9067534 ] } },
+          { "type": "Feature", "properties": { "num": 38, "id": 37, "name": "1901 18th Street NW", "blurb": "The November Residence of the Master in DC", "address": "1901 18th St NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9158011, "lon": -77.0415374, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0415374, 38.9158011 ] } },
+          { "type": "Feature", "properties": { "num": 41, "id": 40, "name": "Women Equality Museum", "blurb": "Sewall-Belmont House and Museum", "address": "144 Constitution Ave NE", "city": "Washington", "state": "DC", "zip": 20002, "lat": 38.8921399, "lon": -77.0037405, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0037405, 38.8921399 ] } },
+          { "type": "Feature", "properties": { "num": 42, "id": 41, "name": "Integrated Farewell Banquet in Legally Segregated DC", "blurb": "Rauscher's Hall", "address": "1050 Conneticut Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.903418, "lon": -77.040721, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.040721, 38.903418 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 42, "name": "St. Paul's Cemetery", "blurb": "Grave of Colonel Julius Adolph de Lagnel visited by the Master", "address": "1500 Wilkes St", "city": "Alexandria", "state": "VA", "zip": 22314, "lat": 38.80106, "lon": -77.0573749, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0573749, 38.80106 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 43, "name": "Baha'i Hospice of Aseyeh Allen", "blurb": "Baha'i Guesthouse Visited by the Master", "address": "804 Independence Ave SW", "city": "Washington", "state": "DC", "zip": 20591, "lat": 38.8875556, "lon": -77.0230583, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0230583, 38.8875556 ] } },
+          { "type": "Feature", "properties": { "num": 45, "id": 44, "name": "Fort Lincoln Cemetery", "blurb": "Restitution and rededication of graves of 1912 Community Members Brittingham, Dixon, Boyle, Barnitz", "address": "3401 Bladensburg Road", "city": "Brentwood", "state": "MD", "zip": 20722, "lat": 38.9321478, "lon": -76.9554016, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -76.9554016, 38.9321478 ] } },
+          { "type": "Feature", "properties": { "num": 46, "id": 45, "name": "Prospect Hill Cemetery", "blurb": "The Master instructed: The Believers in that City in which the Maid-Servant is buried, must all go to her Tomb and read this Visiting Tablet", "address": "2201 N Capitol St NE", "city": "Washington", "state": "DC", "zip": 20002, "lat": 38.9206267, "lon": -77.008954, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.008954, 38.9206267 ] } },
+          { "type": "Feature", "properties": { "num": 47, "id": 46, "name": "Rock Creek Cemetery", "blurb": "Gravesite of 1912 DC Community Members Ali Kuli Khan and Stanwood Cobb", "address": "10 Rock Creek Church Rd NW", "city": "Washington", "state": "DC", "zip": 2011, "lat": 38.9442409, "lon": -77.0116507, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0116507, 38.9442409 ] } },
+          { "type": "Feature", "properties": { "num": 49, "id": 47, "name": "Mr. Louis George Gregory House", "blurb": "A Hand of the Cause of God", "address": "1553 4th Street NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.910921, "lon": -77.01593, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.01593, 38.910921 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 48, "name": "First Baha'i Center to hold integrated Feast", "blurb": "Integrated Feasts were held here prior to the visit of the Master", "address": "901 T Street NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.915718, "lon": -77.024234, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.024234, 38.915718 ] } },
+          { "type": "Feature", "properties": { "num": 51, "id": 49, "name": "First DC Baha'i Center", "blurb": "The Master sent Mirza 'Abu'l Fad'l to teach the Faith here", "address": "533 15th St NW", "city": "Washington", "state": "DC", "zip": 20004, "lat": 38.8967146, "lon": -77.0336141, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0336141, 38.8967146 ] } },
+          { "type": "Feature", "properties": { "num": 52, "id": 50, "name": "8th Street Synagogue", "blurb": "Synagogue where the Master Spoke", "address": "816 8th St NW", "city": "Washington", "state": "DC", "zip": 20001, "lat": 38.9002983, "lon": -77.0230183, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0230183, 38.9002983 ] } },
+          { "type": "Feature", "properties": { "num": null, "id": 51, "name": "Home of the First American Baha'i of African Descent", "blurb": "Also the residence of the Mother of the Faithrful, Mrs. Phoebe Hearst", "address": "1400 New Hampshire Ave NW", "city": "Washington", "state": "DC", "zip": 20036, "lat": 38.9085838, "lon": -77.0444758, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0444758, 38.9085838 ] } },
+          { "type": "Feature", "properties": { "num": 54, "id": 52, "name": "The Mendota", "blurb": "Spectacular turn of the century apartment house of Josephine Cowles visited by the Master in 1912", "address": "2220 20th Street NW", "city": "Washington", "state": "DC", "zip": 20009, "lat": 38.9188889, "lon": -77.0470732, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.0470732, 38.9188889 ] } },
+          { "type": "Feature", "properties": { "num": 55, "id": 53, "name": "Fuhrman House", "blurb": "The Family Which Preserved the Furniture Used by the Master", "address": "24 Quincy Place NE", "city": "Washington", "state": "DC", "zip": 20002, "lat": 38.9120459, "lon": -77.007896, "desc": null }, "geometry": { "type": "Point", "coordinates": [ -77.007896, 38.9120459 ] } }
           ]
           }
-
 
       // add markers to map
       geojson.features.forEach(function(marker) {
@@ -240,16 +306,21 @@ map.on('load', function() {
         .setLngLat(marker.geometry.coordinates)
         .setPopup(new mapboxgl.Popup({ offset: 25,
         closeButton: (true) })
-        .setHTML('<h3>' + marker.properties.location + '</h3><h5>'
-       + marker.properties.description+ '</h5>'))
+        .setHTML('<h2>' + marker.properties.name + '</h2> <h5>'
+       + marker.properties.blurb + '</h5><h5>' + marker.properties.desc + '</h5>'))
         .addTo(map);
       });
 
-      // Add Geocoder
 
-      map.addControl(new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-      }), 'top-right');
+      // //add directions
+      // map.addControl(new MapboxDirections({
+      //     accessToken: mapboxgl.accessToken
+      //     }), 'bottom-right');
+
+      // Add Geocoder
+      // map.addControl(new MapboxGeocoder({
+      //   accessToken: mapboxgl.accessToken,
+      // }), 'top-right');
 
       map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
       // Add zoom and rotation controls to the map.
@@ -263,9 +334,11 @@ map.on('load', function() {
               enableHighAccuracy: true
           },
           trackUserLocation: true,
-          fitBoundsOptions: {maxZoom:11},
+          fitBoundsOptions: {maxZoom:17},
 
       }), 'bottom-right');
+
+
 
             // Get the modal
             var modal = document.getElementById('myModal');
